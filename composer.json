@@ -1,0 +1,16 @@
+{
+    "name": "se-project/fitness-tracker",
+    "description": "SE Project Dario Karadzin Dario Petric fitness tracker",
+    "type": "project",
+    "license": "Unlicense",
+    "authors": [
+        {
+            "name": "Dario Karadzin, Dario Petric",
+            "email": "dario.karadzin@stu.ibu.edu.ba"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "flightphp/core": "^3.15"
+    }
+}

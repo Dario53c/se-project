@@ -1,0 +1,110 @@
+.exercise-container {
+    max-width: 600px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+        
+.exercise-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+.exercise-container:hover .workout-letter {
+    color: #006494;
+}
+
+/* Exercise Modal styles */
+.exercise-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.exercise-modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.exercise-modal h3 {
+    margin-top: 0;
+}
+
+.exercise-modal-input {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.exercise-modal-actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.exercise-modal-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.exercise-modal-button:hover {
+    background: #555;
+}
+
+.exercise-modal-button.primary {
+    background: #003554;
+    color: white;
+    transition: 0.3s ease;
+}
+
+.exercise-modal-button.primary:hover {
+    background: #006494;
+}
+
+.exercise-data{
+    color: #555;
+    margin-bottom:16px;
+}
+
+.workout-actions .edit-exercise {
+    background: #003554;
+    color: white;
+    font-weight:normal;
+    transition: 0.3s ease;
+}
+
+.workout-actions .delete-exercise {
+    background: #006494;
+    color: white;
+    font-weight:normal;
+    transition: 0.3s ease;
+}
+
+.workout-actions .delete-exercise:hover {
+    background: #4DA8DA;
+}
+
+.workout-actions .edit-exercise:hover {
+    background: #0582CA;
+}
