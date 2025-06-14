@@ -14,7 +14,7 @@ $username = $_ENV['DB_USER'];
 $password = $_ENV['DB_PASS'];
 $dbname = $_ENV['DB_NAME'];
 $port = (int)$_ENV['DB_PORT'];
-$ssl_cert = $_ENV['DB_SSL_CERT_KEY'];
+$ssl_cert = $_ENV['DB_SSL_CERT'];
 // Create connection with SSL
 $conn = new mysqli();
 $conn->ssl_set(NULL, NULL, $ssl_cert, NULL, NULL);
