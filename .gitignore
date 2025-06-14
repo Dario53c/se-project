@@ -1,1 +1,4 @@
+# .gitignore
+.env
+/config/ca-certificate.crt
 /vendor/

@@ -1,27 +1,17 @@
 <?php
-session_start();
-require_once 'database.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/database.php';
+require_once __DIR__ . '/Controller.php';
 
-$workoutName = $_POST['name'] ?? '';
-$workoutDescription = $_POST['description'] ?? '';
+header('Content-Type: application/json');
 
-$name = $conn->real_escape_string($workoutName);
-$description = $conn->real_escape_string($workoutDescription);
-
-$user_id = $_SESSION['user_id'];
-
-$sql = "INSERT INTO workouts (user_id, name, description) VALUES ('$user_id', '$name', '$description')";
-
-if ($conn->query($sql) === TRUE) {
-    
-    //Get the ID of the newly inserted workout
-    $newWorkoutId = $conn->insert_id;
-    $_SESSION['current_workout_id'] = $newWorkoutId;
-
-    echo "Workout log successful";  
+// Handle both JSON and form-data submissions
+$input = file_get_contents('php://input');
+if (strpos($_SERVER['CONTENT_TYPE'] ?? '', 'application/json') !== false) {
+    $data = json_decode($input, true);
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;  
+    $data = $_POST;
 }
 
-$conn->close();
-?>
+$controller = new Sssd\Controller($conn);
+$controller->createWorkout($data);
