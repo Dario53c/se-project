@@ -1,30 +1,50 @@
 
 async function loadWorkouts() {
+    const workoutsList = document.getElementById('workoutsList');
+    
     try {
-        const response = await fetch('php/get_workouts.php');
+        // Show loading state
+        workoutsList.innerHTML = '<div class="loading">Loading workouts...</div>';
         
+        const response = await fetch('php/get_workouts.php', {
+            credentials: 'include' // Important for session cookies
+        });
+        
+        // Check for HTTP errors
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const error = await response.json().catch(() => null);
+            throw new Error(error?.message || `Server returned ${response.status}`);
         }
         
         const data = await response.json();
         
-        if (data.error) {
-            console.error('Server error:', data.error);
-            alert('Error loading workouts: ' + data.error);
-            return;
+        // Check for application errors
+        if (data.status === 'error') {
+            throw new Error(data.message || 'Unknown server error');
         }
         
-        if (!data.workouts) {
-            console.error('Unexpected response format:', data);
-            alert('Unexpected data format received');
-            return;
+        // Validate response structure
+        if (!Array.isArray(data.workouts)) {
+            console.error('Invalid response format:', data);
+            throw new Error('Invalid data received from server');
         }
         
         renderWorkouts(data.workouts);
-    } catch (err) {
-        console.error('Error loading workouts:', err);
-        alert('Failed to load workouts. Please try again.');
+        
+    } catch (error) {
+        console.error('Error loading workouts:', error);
+        
+        // Show user-friendly error message
+        workoutsList.innerHTML = `
+            <div class="error-message">
+                <p>Failed to load workouts</p>
+                <p>${error.message}</p>
+                <button onclick="loadWorkouts()">Retry</button>
+            </div>
+        `;
+        
+        // Optional: Send error to monitoring service
+        // logErrorToService(error);
     }
 }
 
@@ -95,55 +115,54 @@ function renderWorkouts(workouts) {
     const workoutsList = document.getElementById('workoutsList');
     
     if (!workoutsList) {
-        console.error('Workouts list container not found');
+        console.error('Workouts container not found');
         return;
     }
     
-    workoutsList.innerHTML = '';
-    
-    if (workouts.length === 0) {
-        workoutsList.innerHTML = '<p class="no-workouts">No workouts yet. Create your first one!</p>';
-        return;
-    }
-    
-    workouts.forEach(workout => {
-        const workoutElement = document.createElement('div');
-        workoutElement.className = 'workout-item';
-        workoutElement.innerHTML = `
-            <div class="workout-header">
-                <h3>${workout.name}</h3>
-                <span class="workout-date">${new Date(workout.created_at).toLocaleDateString()}</span>
-            </div>
-            <div class="exercise-data">
-            ${workout.category ? `<p>Category: ${workout.category}</p>` : ''}
-            ${workout.description ? `<p>${workout.description}</p>` : ''}
-            ${workout.estimated_duration ? `<p>Estimated Duration: ${workout.estimated_duration} min</p>` : ''}
-            </div>
-            <div class="workout-actions">
-                <button class="view-workout" data-id="${workout.workout_id}">View</button>
-                <button class="delete-workout" data-id="${workout.workout_id}">Delete</button>
+    if (!workouts || workouts.length === 0) {
+        workoutsList.innerHTML = `
+            <div class="empty-state">
+                <p>No workouts found</p>
+                <button onclick="showCreateWorkoutForm()">Create First Workout</button>
             </div>
         `;
+        return;
+    }
+    
+    workoutsList.innerHTML = workouts.map(workout => `
+        <div class="workout-item" data-id="${workout.workout_id}">
+            <div class="workout-header">
+                <h3>${workout.name || 'Untitled Workout'}</h3>
+                <span class="workout-date">
+                    ${workout.created_at ? new Date(workout.created_at).toLocaleDateString() : 'No date'}
+                </span>
+            </div>
+            <div class="exercise-data">
+                ${workout.category ? `<p><strong>Type:</strong> ${workout.category}</p>` : ''}
+                ${workout.description ? `<p>${workout.description}</p>` : ''}
+                ${workout.estimated_duration ? `<p><strong>Duration:</strong> ${workout.estimated_duration} minutes</p>` : ''}
+            </div>
+            <div class="workout-actions">
+                <button class="btn view-workout">View Details</button>
+                <button class="btn delete-workout">Delete</button>
+            </div>
+        </div>
+    `).join('');
+    
+    // Event delegation for better performance
+    workoutsList.addEventListener('click', (e) => {
+        const workoutItem = e.target.closest('.workout-item');
+        if (!workoutItem) return;
         
-        workoutsList.appendChild(workoutElement);
-    });
-    
-    // Add event listeners for the new buttons
-    document.querySelectorAll('.view-workout').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const workoutId = e.target.getAttribute('data-id');
+        const workoutId = workoutItem.dataset.id;
+        
+        if (e.target.classList.contains('view-workout')) {
             viewWorkoutDetails(workoutId);
-        });
-    });
-    
-    document.querySelectorAll('.delete-workout').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const workoutId = e.target.getAttribute('data-id');
+        } else if (e.target.classList.contains('delete-workout')) {
             deleteWorkout(workoutId);
-        });
+        }
     });
 }
-
 
 async function deleteWorkout(workoutId) {
     if (!confirm('Are you sure you want to delete this workout?')) return;
