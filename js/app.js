@@ -49,7 +49,7 @@ async function handleLogin(e) {
     formData.append('username', username);
     formData.append('password', password); 
     
-    fetch('php/login', {
+    fetch('php/login.php', {
         method: 'POST',
         body: formData
     }).then(response => response.text())    
@@ -89,7 +89,7 @@ async function handleRegister(e) {
     formData.append('password', password);
     formData.append('gender', gender);
 
-    fetch('php/register', {
+    fetch('php/register.php', {
         method: 'POST',
         body: formData
     })
@@ -107,7 +107,7 @@ async function handleRegister(e) {
 
 // Displays either Login and Register or Welcome and Logout buttons
 function updateRegisterButtons(){
-    fetch('php/auth/check')
+    fetch('php/check_login.php')
     .then(response => response.json()).then(data => {
         const otherLinks = document.getElementById('other-links');
         const displayLinks = document.getElementById('nav-links-registration');
@@ -125,7 +125,7 @@ function updateRegisterButtons(){
             const logoutBtn = document.getElementById('logout-button');
             logoutBtn.addEventListener('click', function() {
                 if (!confirm('Are you sure you want to logout?')) return;
-                fetch('php/auth/logout')
+                fetch('php/logout.php')
                 .then(response => response.text())
                 .then(data => {
                     alert(data);
