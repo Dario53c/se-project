@@ -2,14 +2,15 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/config.php';
 
 // Database credentials from environment
-$host = $_ENV['DB_HOST'] ?? getenv('DB_HOST');
-$username = $_ENV['DB_USER'] ?? getenv('DB_USER');
-$password = $_ENV['DB_PASS'] ?? getenv('DB_PASS');
-$dbname = $_ENV['DB_NAME'] ?? getenv('DB_NAME');
-$port = (int)($_ENV['DB_PORT'] ?? getenv('DB_PORT'));
-$ssl_cert = $_ENV['DB_SSL_CERT'] ?? getenv('DB_SSL_CERT');
+$host = DB_HOST;
+$username = DB_USER;
+$password = DB_PASS;
+$dbname = DB_NAME;
+$port = DB_PORT;
+$ssl_cert = DB_SSL_CERT;
 
 // Initialize connection with error handling
 $conn = new mysqli();
