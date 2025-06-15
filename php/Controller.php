@@ -2,7 +2,10 @@
 namespace Sssd;
 
 use OpenApi\Annotations as OA;
-
+/**
+ * @OA\Info(title="My API", version="1.0")
+ * @OA\Server(url="https://se-project-7kfh.onrender.com", description="Production server")
+ */
 class Controller {
     private $conn;
 
