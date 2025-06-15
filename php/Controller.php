@@ -12,7 +12,7 @@ class Controller {
 
     /**
      * @OA\Post(
-     *     path="/register.php",
+     *     path="/register",
      *     summary="Register a new user",
      *     description="Creates a new user account",
      *     tags={"Authentication"},
@@ -162,7 +162,7 @@ class Controller {
 
         /**
      * @OA\Post(
-     *     path="/login.php",
+     *     path="/login",
      *     summary="User login",
      *     description="Authenticates a user and creates a session",
      *     tags={"Authentication"},
@@ -271,7 +271,7 @@ class Controller {
 
         /**
      * @OA\Post(
-     *     path="/create_workout.php",
+     *     path="/create-workout",
      *     summary="Create a new workout",
      *     description="Creates a new workout for the authenticated user",
      *     tags={"Workouts"},
@@ -389,7 +389,7 @@ class Controller {
 
     /**
      * @OA\Post(
-     *     path="/create_exercise.php",
+     *     path="/create-exercise",
      *     summary="Create a new exercise",
      *     description="Adds a new exercise to an existing workout",
      *     tags={"Exercises"},

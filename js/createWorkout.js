@@ -6,7 +6,7 @@ async function loadWorkouts() {
         // Show loading state
         workoutsList.innerHTML = '<div class="loading">Loading workouts...</div>';
         
-        const response = await fetch('php/get_workouts.php', {
+        const response = await fetch('php/workouts', {
             credentials: 'include' // Important for session cookies
         });
         
@@ -79,7 +79,7 @@ function setupWorkoutListPage() {
         formData.append('description', description);
 
         try {
-            const response = await fetch('php/create_workout.php', {
+            const response = await fetch('php/create-workout', {
                 method: 'POST',
                 body: formData
             });
@@ -168,7 +168,7 @@ async function deleteWorkout(workoutId) {
     if (!confirm('Are you sure you want to delete this workout?')) return;
     
     try {
-        const response = await fetch('php/delete_workout.php', {
+        const response = await fetch('php/workout/delete', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -251,7 +251,7 @@ function setupCreateWorkoutPage() {
         formData.append('workoutId', workoutId);
 
         try {
-            const response = await fetch('php/create_exercise.php', {
+            const response = await fetch('php/create-exercise', {
                 method: 'POST',
                 body: formData
             });
@@ -316,7 +316,7 @@ async function viewWorkoutDetails(workoutId) {
         const formData = new FormData();
         formData.append('workoutId', workoutId);
 
-        const response = await fetch('php/get_exercises.php', {
+        const response = await fetch('php/exercises', {
             method: 'POST',
             body: formData
         });
@@ -385,7 +385,7 @@ async function deleteExercise(exerciseId) {
     if (!confirm('Are you sure you want to delete this exercise?')) return;
     
     try {
-        const response = await fetch('php/delete_exercise.php', {
+        const response = await fetch('php/exercise/delete', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -420,7 +420,7 @@ async function showEditExerciseModal(exerciseId) {
     const formData = new FormData();
     formData.append('exerciseId', exerciseId);
 
-    const result = await fetch('php/getExerciseByID.php', {
+    const result = await fetch('php/exercise', {
         method: 'POST',
         body: formData
     });
@@ -467,7 +467,7 @@ async function showEditExerciseModal(exerciseId) {
         formData.append('duration', duration);
 
         try {
-            const response = await fetch('php/edit_exercise.php', {
+            const response = await fetch('php/exercise/edit', {
                 method: 'POST',
                 body: formData
             });
