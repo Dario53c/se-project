@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @OA\Info(
  *     title="SE Project API",
@@ -6,8 +7,8 @@
  *     description="Fitness Tracker API Documentation"
  * )
  * @OA\Server(
- *     url="https://se-project-7kfh.onrender.com",
- *     description="Production server"
+ *     url=($_SERVER['HTTP_HOST'] === 'localhost' ? 'http://localhost' : 'https://se-project-7kfh.onrender.com'),
+ *     description=($_SERVER['HTTP_HOST'] === 'localhost' ? 'Local Development' : 'Production Server')
  * )
  * @OA\SecurityScheme(
  *     securityScheme="sessionAuth",
