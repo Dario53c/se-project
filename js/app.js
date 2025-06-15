@@ -120,7 +120,6 @@ function updateRegisterButtons(){
             `;
 
             displayLinks.innerHTML = `
-                <a href="#profile" class="nav-link">Profile</a>
                 <a href="#" class="nav-link" id="logout-button">Logout</a>
             `;
             const logoutBtn = document.getElementById('logout-button');
